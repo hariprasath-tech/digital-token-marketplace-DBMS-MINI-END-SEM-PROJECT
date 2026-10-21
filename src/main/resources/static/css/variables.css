@@ -1,0 +1,198 @@
+/* ====================================================================
+   NEXUS DIGITAL TOKEN MARKETPLACE - DESIGN TOKENS
+   Deep Space Theme with Neon Palette & Design System Foundations
+   ==================================================================== */
+
+:root {
+    /* ----------------------------------------------------------------
+       1. COLOR PALETTE: Deep Space & Glass Surfaces
+       ---------------------------------------------------------------- */
+    --color-bg: #05060f;
+    --color-bg-space: #05060f;
+    --color-bg-alt: #0a0c1b;
+    --color-bg-subtle: #0f132a;
+    --color-surface: rgba(13, 16, 35, 0.72);
+    --color-surface-hover: rgba(22, 28, 58, 0.88);
+    --color-surface-elevated: rgba(18, 22, 48, 0.85);
+    --color-surface-solid: #0d1023;
+    --color-glass: rgba(13, 16, 35, 0.65);
+
+    /* Aliases for legacy compatibility */
+    --bg-primary: #05060f;
+    --bg-surface: #0a0c1b;
+    --bg-card: rgba(13, 16, 35, 0.72);
+    --bg-card-hover: rgba(20, 26, 56, 0.88);
+    --bg-glass: rgba(13, 16, 35, 0.65);
+
+    /* ----------------------------------------------------------------
+       2. NEON ACCENT PALETTE (Cyan, Violet, Magenta, Lime)
+       ---------------------------------------------------------------- */
+    --neon-cyan: #00f0ff;
+    --neon-cyan-glow: rgba(0, 240, 255, 0.45);
+    --neon-cyan-subtle: rgba(0, 240, 255, 0.12);
+    --neon-cyan-border: rgba(0, 240, 255, 0.35);
+
+    --neon-violet: #8b5cff;
+    --neon-violet-glow: rgba(139, 92, 255, 0.4);
+    --neon-violet-subtle: rgba(139, 92, 255, 0.12);
+    --neon-violet-border: rgba(139, 92, 255, 0.35);
+
+    --neon-magenta: #ff3df2;
+    --neon-magenta-glow: rgba(255, 61, 242, 0.45);
+    --neon-magenta-subtle: rgba(255, 61, 242, 0.12);
+    --neon-magenta-border: rgba(255, 61, 242, 0.35);
+
+    --neon-lime: #b6ff3c;
+    --neon-lime-glow: rgba(182, 255, 60, 0.4);
+    --neon-lime-subtle: rgba(182, 255, 60, 0.12);
+    --neon-lime-border: rgba(182, 255, 60, 0.35);
+
+    /* Legacy purple/amber/rose aliases */
+    --neon-purple: #8b5cff;
+    --neon-purple-glow: rgba(139, 92, 255, 0.4);
+    --neon-amber: #f59e0b;
+    --neon-amber-glow: rgba(245, 158, 11, 0.45);
+    --neon-rose: #ef4444;
+    --neon-rose-glow: rgba(239, 68, 68, 0.45);
+    --neon-emerald: #10b981;
+    --neon-emerald-glow: rgba(16, 185, 129, 0.45);
+
+    /* ----------------------------------------------------------------
+       3. FUNCTIONAL STATUS COLORS & BADGE GLOWS
+       ---------------------------------------------------------------- */
+    --status-available: #10b981;
+    --status-available-glow: rgba(16, 185, 129, 0.45);
+    --status-available-subtle: rgba(16, 185, 129, 0.12);
+
+    --status-pending: #f59e0b;
+    --status-pending-glow: rgba(245, 158, 11, 0.45);
+    --status-pending-subtle: rgba(245, 158, 11, 0.12);
+
+    --status-transferred: #00f0ff;
+    --status-transferred-glow: rgba(0, 240, 255, 0.45);
+    --status-transferred-subtle: rgba(0, 240, 255, 0.12);
+
+    --status-used: #64748b;
+    --status-used-glow: rgba(100, 116, 139, 0.35);
+    --status-used-subtle: rgba(100, 116, 139, 0.14);
+
+    --status-expired: #ef4444;
+    --status-expired-glow: rgba(239, 68, 68, 0.45);
+    --status-expired-subtle: rgba(239, 68, 68, 0.12);
+
+    /* ----------------------------------------------------------------
+       4. TEXT COLORS & CONTRAST
+       ---------------------------------------------------------------- */
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --text-heading: #ffffff;
+    --text-glow: #e0f2fe;
+
+    /* ----------------------------------------------------------------
+       5. GLASSMORPHISM & GRADIENT BORDERS
+       ---------------------------------------------------------------- */
+    --glass-blur: blur(20px);
+    --glass-blur-sm: blur(10px);
+    --glass-blur-lg: blur(32px);
+    --glass-specular: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-subtle-cyan: rgba(0, 240, 255, 0.18);
+    --border-glow: rgba(0, 240, 255, 0.35);
+    --border-gradient: linear-gradient(135deg, rgba(0, 240, 255, 0.4), rgba(139, 92, 255, 0.3), rgba(255, 61, 242, 0.2));
+    --border-gradient-card: linear-gradient(135deg, rgba(0, 240, 255, 0.35) 0%, rgba(139, 92, 255, 0.25) 50%, rgba(255, 61, 242, 0.15) 100%);
+    --border-gradient-lime: linear-gradient(135deg, rgba(182, 255, 60, 0.4), rgba(0, 240, 255, 0.3));
+
+    /* ----------------------------------------------------------------
+       6. TYPOGRAPHY: Syne, Orbitron, Inter, JetBrains Mono
+       ---------------------------------------------------------------- */
+    --font-heading: 'Syne', 'Orbitron', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-display: 'Orbitron', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    /* Fluid Type Scale with clamp() */
+    --text-2xs: clamp(0.65rem, 0.6rem + 0.15vw, 0.72rem);
+    --text-xs: clamp(0.72rem, 0.68rem + 0.18vw, 0.8rem);
+    --text-sm: clamp(0.82rem, 0.78rem + 0.2vw, 0.88rem);
+    --text-base: clamp(0.9rem, 0.85rem + 0.25vw, 1rem);
+    --text-md: clamp(1rem, 0.95rem + 0.35vw, 1.15rem);
+    --text-lg: clamp(1.15rem, 1.05rem + 0.5vw, 1.35rem);
+    --text-xl: clamp(1.3rem, 1.15rem + 0.75vw, 1.65rem);
+    --text-2xl: clamp(1.5rem, 1.3rem + 1vw, 2.15rem);
+    --text-3xl: clamp(1.75rem, 1.5rem + 1.5vw, 2.75rem);
+    --text-4xl: clamp(1.85rem, 1.45rem + 2.2vw, 3.6rem);
+    --text-display: clamp(2.2rem, 1.8rem + 3.2vw, 4.8rem);
+
+    /* ----------------------------------------------------------------
+       7. 8px SPACING SCALE
+       ---------------------------------------------------------------- */
+    --space-1: 4px;   /* 0.5 unit */
+    --space-2: 8px;   /* 1.0 unit = 8px */
+    --space-3: 12px;  /* 1.5 units */
+    --space-4: 16px;  /* 2.0 units */
+    --space-5: 20px;  /* 2.5 units */
+    --space-6: 24px;  /* 3.0 units */
+    --space-8: 32px;  /* 4.0 units */
+    --space-10: 40px; /* 5.0 units */
+    --space-12: 48px; /* 6.0 units */
+    --space-16: 64px; /* 8.0 units */
+    --space-20: 80px; /* 10.0 units */
+    --space-24: 96px; /* 12.0 units */
+
+    /* ----------------------------------------------------------------
+       8. CORNER RADII
+       ---------------------------------------------------------------- */
+    --radius-xs: 4px;
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+    --radius-full: 9999px;
+
+    /* ----------------------------------------------------------------
+       9. SHADOWS & NEON GLOWS
+       ---------------------------------------------------------------- */
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.45);
+    --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.65);
+    --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.85);
+    --shadow-cyan: 0 0 25px rgba(0, 240, 255, 0.35);
+    --shadow-violet: 0 0 25px rgba(139, 92, 255, 0.35);
+    --shadow-magenta: 0 0 25px rgba(255, 61, 242, 0.35);
+    --shadow-lime: 0 0 25px rgba(182, 255, 60, 0.35);
+
+    /* ----------------------------------------------------------------
+       10. ACCESSIBLE FOCUS RINGS
+       ---------------------------------------------------------------- */
+    --focus-ring: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--neon-cyan);
+    --focus-ring-magenta: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--neon-magenta);
+    --focus-glow: 0 0 16px var(--neon-cyan-glow);
+
+    /* ----------------------------------------------------------------
+       11. Z-INDEX SCALE
+       ---------------------------------------------------------------- */
+    --z-deep: -1;
+    --z-base: 1;
+    --z-card: 10;
+    --z-card-hover: 20;
+    --z-sticky: 100;
+    --z-filter: 500;
+    --z-header: 1000;
+    --z-drawer: 2000;
+    --z-dropdown: 9999;
+    --z-modal: 10000;
+    --z-toast: 20000;
+    --z-cursor: 99999;
+
+    /* ----------------------------------------------------------------
+       12. TRANSITIONS & TIMING
+       ---------------------------------------------------------------- */
+    --transition-fast: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    /* Layout dimensions */
+    --max-width: 1440px;
+    --header-height: 76px;
+}

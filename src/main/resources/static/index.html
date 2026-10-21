@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS - Digital Token Marketplace | Sri Eshwar College of Engineering</title>
+    <meta name="description" content="A futuristic campus platform where students exchange unused digital tokens and reservations for workshops, hackathons, lab sessions, and sports facilities.">
+
+    <!-- Google Fonts: Orbitron, Syne, Inter, JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@500;600;700;800;900&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Modular CSS System -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/pages.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="cyber-theme">
+
+    <!-- Ambient Deep Space Background Lighting & Cyber Grid -->
+    <div class="cyber-grid-bg" aria-hidden="true"></div>
+    <div class="ambient-glow cyan-glow" aria-hidden="true"></div>
+    <div class="ambient-glow purple-glow" aria-hidden="true"></div>
+
+    <!-- Top Futuristic Navigation Bar -->
+    <header class="cyber-header" id="mainHeader">
+        <div class="header-container">
+            <!-- Brand Identity -->
+            <div class="brand-group">
+                <a href="#/" class="brand-logo" id="brandLogo">
+                    <div class="logo-core">
+                        <span class="core-hexagon"></span>
+                        <i data-lucide="shield-check" class="logo-icon"></i>
+                    </div>
+                    <div class="brand-text">
+                        <span class="brand-title">NEXUS<span class="title-sub">TOKEN</span></span>
+                        <span class="brand-tag">SECE CAMPUS EXCHANGE</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- SPA Navigation Links (Single Row, Sliding Glowing Indicator) -->
+            <nav class="nav-links" id="mainNavLinks">
+                <span class="nav-sliding-indicator" id="navSlidingIndicator"></span>
+                <a href="#/" class="nav-item" data-nav="landing">
+                    <i data-lucide="home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="#/marketplace" class="nav-item" data-nav="marketplace">
+                    <i data-lucide="layout-grid"></i>
+                    <span>Marketplace</span>
+                </a>
+                <a href="#/my-tokens" class="nav-item auth-only" data-nav="my-tokens">
+                    <i data-lucide="ticket"></i>
+                    <span>My Vault</span>
+                </a>
+                <a href="#/requests" class="nav-item auth-only" data-nav="requests">
+                    <i data-lucide="arrow-left-right"></i>
+                    <span>Requests</span>
+                    <span class="alert-badge hidden" id="incomingReqBadge">0</span>
+                </a>
+                <a href="#/activities" class="nav-item admin-only hidden" data-nav="activities">
+                    <i data-lucide="calendar"></i>
+                    <span>Activities</span>
+                </a>
+                <a href="#/history" class="nav-item" data-nav="history">
+                    <i data-lucide="history"></i>
+                    <span>Audit Trail</span>
+                </a>
+                <a href="#/dashboard" class="nav-item" data-nav="dashboard">
+                    <i data-lucide="bar-chart-3"></i>
+                    <span>Dashboard</span>
+                </a>
+            </nav>
+
+            <!-- Header Actions -->
+            <div class="header-actions">
+                <!-- Compact Expiry Engine Status Pill (Single Line) -->
+                <div class="scheduler-pill" id="schedulerPill" title="Automatic token expiry engine sweeps every 60s">
+                    <span class="pulse-dot"></span>
+                    <span class="pill-label">EXPIRY ENGINE: ACTIVE</span>
+                </div>
+
+                <!-- Current User Avatar Chip & Profile Dropdown (Shown when logged in) -->
+                <div class="user-chip-container hidden" id="userProfileChipWrap">
+                    <button type="button" class="current-student-btn" id="userProfileBtn" aria-expanded="false" aria-haspopup="true">
+                        <div class="avatar-circle" id="userAvatar">--</div>
+                        <div class="student-info-col">
+                            <span class="student-name" id="userDisplayName">Student</span>
+                            <span class="student-roll" id="userDisplayRoll">--</span>
+                        </div>
+                        <i data-lucide="chevron-down" class="dropdown-arrow"></i>
+                    </button>
+
+                    <!-- Profile Dropdown (Strictly single user profile, NO student list) -->
+                    <div class="user-profile-menu hidden" id="userProfileMenu" role="menu">
+                        <div class="profile-menu-header">
+                            <div class="profile-header-avatar" id="menuAvatar">--</div>
+                            <div class="profile-header-info">
+                                <span class="profile-full-name" id="menuFullName">Student Profile</span>
+                                <span class="profile-reg-no" id="menuRegNo">--</span>
+                                <span class="profile-dept" id="menuDept">Department</span>
+                            </div>
+                            <div id="menuAdminBadgeWrap"></div>
+                        </div>
+
+                        <div class="profile-menu-links">
+                            <a href="#/my-tokens" class="profile-menu-link" role="menuitem" id="menuVaultLink">
+                                <i data-lucide="ticket"></i>
+                                <span>My Token Vault</span>
+                            </a>
+                            <a href="#/requests" class="profile-menu-link" role="menuitem" id="menuRequestsLink">
+                                <i data-lucide="arrow-left-right"></i>
+                                <span>Pending Requests</span>
+                            </a>
+                            <a href="#/activities" class="profile-menu-link admin-only hidden" role="menuitem" id="menuActivitiesLink">
+                                <i data-lucide="calendar"></i>
+                                <span>Activity Management</span>
+                            </a>
+                        </div>
+
+                        <div class="profile-menu-footer">
+                            <button type="button" class="sign-out-btn" id="headerSignOutBtn" role="menuitem">
+                                <i data-lucide="log-out"></i>
+                                <span>Sign Out</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sign In Action Button (Shown when NOT logged in) -->
+                <a href="#/auth" class="cyber-btn primary-glow btn-sm" id="navSignInBtn">
+                    <i data-lucide="log-in"></i>
+                    <span>Sign In</span>
+                </a>
+
+                <!-- Mobile Hamburger Toggle Button (Below 1100px) -->
+                <button type="button" class="hamburger-btn" id="mobileMenuToggle" aria-label="Toggle Navigation Drawer">
+                    <span class="hamburger-line line-1"></span>
+                    <span class="hamburger-line line-2"></span>
+                    <span class="hamburger-line line-3"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Glass Navigation Drawer (Below 1100px) -->
+    <div class="mobile-drawer-overlay hidden" id="mobileDrawerOverlay"></div>
+    <aside class="mobile-drawer hidden" id="mobileDrawer" aria-label="Mobile Navigation">
+        <div class="drawer-header">
+            <div class="brand-text">
+                <span class="brand-title">NEXUS<span class="title-sub">TOKEN</span></span>
+            </div>
+            <button type="button" class="drawer-close-btn" id="closeDrawerBtn" aria-label="Close Navigation">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+
+        <div class="drawer-user-box" id="drawerUserBox">
+            <!-- Populated dynamically via JS -->
+        </div>
+
+        <nav class="drawer-nav-links">
+            <a href="#/" class="drawer-nav-item active" data-nav="landing">
+                <i data-lucide="home"></i>
+                <span>Home</span>
+            </a>
+            <a href="#/marketplace" class="drawer-nav-item" data-nav="marketplace">
+                <i data-lucide="layout-grid"></i>
+                <span>Marketplace</span>
+            </a>
+            <a href="#/my-tokens" class="drawer-nav-item auth-only" data-nav="my-tokens">
+                <i data-lucide="ticket"></i>
+                <span>My Vault</span>
+            </a>
+            <a href="#/requests" class="drawer-nav-item auth-only" data-nav="requests">
+                <i data-lucide="arrow-left-right"></i>
+                <span>Requests</span>
+            </a>
+            <a href="#/activities" class="drawer-nav-item admin-only hidden" data-nav="activities">
+                <i data-lucide="calendar"></i>
+                <span>Activities</span>
+            </a>
+            <a href="#/history" class="drawer-nav-item" data-nav="history">
+                <i data-lucide="history"></i>
+                <span>Audit Trail</span>
+            </a>
+            <a href="#/dashboard" class="drawer-nav-item" data-nav="dashboard">
+                <i data-lucide="bar-chart-3"></i>
+                <span>Dashboard</span>
+            </a>
+        </nav>
+
+        <div class="drawer-footer">
+            <button type="button" class="drawer-signout-btn" id="drawerSignOutBtn">
+                <i data-lucide="log-out"></i>
+                <span>Sign Out</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Master SPA Viewport Container -->
+    <main id="app" class="main-viewport" role="main">
+        <div class="app-loading-state container" style="text-align: center; padding: 120px 20px;">
+            <div class="loading-spinner-lg" style="margin: 0 auto 20px;"></div>
+            <p style="font-family: var(--font-mono); color: var(--neon-cyan); letter-spacing: 1px;">INITIALIZING NEXUS TOKEN ENGINE...</p>
+        </div>
+    </main>
+
+    <!-- Global Toast Notification Container -->
+    <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+    <!-- Core CDN Libraries -->
+    <!-- Three.js for 3D Holographic Token Scene -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- GSAP for Smooth Staggered Reveals -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <!-- Studio Freight Lenis for Smooth Inertial Scrolling -->
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <!-- Master ES Module Entry Point -->
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,308 @@
+/* ====================================================================
+   NEXUS DIGITAL TOKEN MARKETPLACE - BASE STYLES & FOUNDATIONS
+   ==================================================================== */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    background-color: var(--color-bg);
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
+body {
+    background-color: var(--color-bg);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: 1.6;
+    overflow-x: hidden;
+    max-width: 100%;
+    min-height: 100vh;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Accessible Global Focus States */
+:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+    border-color: var(--neon-cyan);
+}
+
+::selection {
+    background: rgba(0, 240, 255, 0.35);
+    color: #ffffff;
+}
+
+/* Core Visibility Utilities */
+.hidden {
+    display: none !important;
+}
+
+.visible {
+    display: block !important;
+}
+
+/* Aurora Gradient Background Blobs */
+.aurora-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.aurora-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(140px);
+    pointer-events: none;
+}
+
+.blob-cyan {
+    top: -150px;
+    right: -100px;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(0, 240, 255, 0.18), transparent 70%);
+    animation: auroraDrift1 22s infinite ease-in-out;
+}
+
+.blob-violet {
+    bottom: -180px;
+    left: -120px;
+    width: 750px;
+    height: 750px;
+    background: radial-gradient(circle, rgba(139, 92, 255, 0.16), transparent 70%);
+    animation: auroraDrift2 26s infinite ease-in-out;
+}
+
+.blob-magenta {
+    top: 35%;
+    left: 45%;
+    width: 550px;
+    height: 550px;
+    background: radial-gradient(circle, rgba(255, 61, 242, 0.1), transparent 70%);
+    animation: auroraDrift3 28s infinite ease-in-out;
+}
+
+/* Subtle Cyber Grid Overlay */
+.cyber-grid-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Layout Container */
+.container {
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+}
+
+/* Fluid Typography Hierarchy (Syne/Orbitron Headings, Inter Body, JetBrains Mono Code) */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--text-heading);
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+h1 {
+    font-size: var(--text-4xl);
+    letter-spacing: -0.02em;
+}
+
+.page-main-title, .page-header h1, .marketplace-header h1 {
+    font-size: clamp(1.4rem, 1.15rem + 1.8vw, 3.2rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    word-break: break-word;
+}
+
+h2 {
+    font-size: var(--text-3xl);
+    letter-spacing: -0.015em;
+}
+
+h3 {
+    font-size: var(--text-2xl);
+    letter-spacing: -0.01em;
+}
+
+h4 {
+    font-size: var(--text-xl);
+}
+
+h5 {
+    font-size: var(--text-lg);
+}
+
+h6 {
+    font-size: var(--text-md);
+}
+
+p {
+    font-size: var(--text-base);
+    color: var(--text-secondary);
+    line-height: 1.65;
+}
+
+.font-display {
+    font-family: var(--font-display);
+}
+
+.font-mono, code, kbd, samp, .token-code {
+    font-family: var(--font-mono);
+}
+
+/* Gradient Text Utilities */
+.gradient-text-cyan-violet {
+    background: linear-gradient(135deg, var(--neon-cyan) 0%, #60a5fa 40%, var(--neon-violet) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-magenta-lime {
+    background: linear-gradient(135deg, var(--neon-magenta) 0%, var(--neon-violet) 50%, var(--neon-lime) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-white {
+    background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 240, 255, 0.25);
+    border-radius: var(--radius-full);
+    border: 2px solid var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--neon-cyan);
+    box-shadow: 0 0 10px var(--neon-cyan);
+}
+
+/* Screen Reader Only Utility */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ====================================================================
+   CUSTOM GLOWING CURSOR & TRAILING PARTICLES
+   Restricted to Desktop (hover: hover and pointer: fine)
+   Disabled on touch devices and prefers-reduced-motion
+   ==================================================================== */
+.nexus-cursor-dot,
+.nexus-cursor-ring,
+.nexus-cursor-particle {
+    display: none;
+    pointer-events: none !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    @media not (prefers-reduced-motion: reduce) {
+        .nexus-cursor-dot {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 8px;
+            background: #00f0ff;
+            border-radius: 50%;
+            pointer-events: none !important;
+            z-index: 99999;
+            box-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
+            will-change: transform;
+            transition: width 0.15s ease, height 0.15s ease, background 0.15s ease;
+        }
+
+        .nexus-cursor-ring {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 34px;
+            height: 34px;
+            border: 1.5px solid rgba(0, 240, 255, 0.6);
+            border-radius: 50%;
+            pointer-events: none !important;
+            z-index: 99998;
+            will-change: transform;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.25), inset 0 0 10px rgba(0, 240, 255, 0.15);
+            transition: width 0.2s cubic-bezier(0.16, 1, 0.3, 1), height 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, background-color 0.2s ease;
+        }
+
+        .nexus-cursor-particle {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 4px;
+            background: #38bdf8;
+            border-radius: 50%;
+            pointer-events: none !important;
+            z-index: 99997;
+            box-shadow: 0 0 6px #00f0ff;
+            will-change: transform, opacity;
+        }
+
+        body.cursor-hover .nexus-cursor-ring {
+            width: 52px;
+            height: 52px;
+            border-color: rgba(0, 240, 255, 0.95);
+            background: rgba(0, 240, 255, 0.08);
+            box-shadow: 0 0 24px rgba(0, 240, 255, 0.4), inset 0 0 14px rgba(0, 240, 255, 0.2);
+        }
+
+        body.cursor-hover .nexus-cursor-dot {
+            width: 5px;
+            height: 5px;
+            background: #ffffff;
+            box-shadow: 0 0 12px #ffffff;
+        }
+    }
+}
+

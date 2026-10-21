@@ -1,0 +1,19 @@
+{
+  "name": "digital-token-marketplace-dbms-mini-end-sem-project",
+  "version": "1.0.0",
+  "description": "A futuristic campus platform where students exchange unused digital tokens and reservations for workshops, events, lab sessions, sports facilities and club activities.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hariprasath-tech/digital-token-marketplace-DBMS-MINI-END-SEM-PROJECT.git"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/hariprasath-tech/digital-token-marketplace-DBMS-MINI-END-SEM-PROJECT/issues"
+  },
+  "homepage": "https://github.com/hariprasath-tech/digital-token-marketplace-DBMS-MINI-END-SEM-PROJECT#readme"
+}
