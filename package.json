@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/hariprasath-tech/digital-token-marketplace-DBMS-MINI-END-SEM-PROJECT/issues"
   },
-  "homepage": "https://github.com/hariprasath-tech/digital-token-marketplace-DBMS-MINI-END-SEM-PROJECT#readme"
+  "homepage": "https://github.com/hariprasath-tech/digital-token-marketplace-DBMS-MINI-END-SEM-PROJECT#readme",
+  "devDependencies": {
+    "puppeteer-core": "^25.15.0"
+  }
 }

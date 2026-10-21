@@ -156,7 +156,7 @@ function setupMarketplaceListeners(container) {
     const resetBtn = container.querySelector('#resetMarketFiltersBtn');
     const clearAllBtn = container.querySelector('#clearAllFiltersBtn');
 
-    // Debounced Search Input
+    // Debounced Search Input (200ms)
     let debounceTimer;
     searchInput.addEventListener('input', (e) => {
         clearTimeout(debounceTimer);
@@ -164,7 +164,7 @@ function setupMarketplaceListeners(container) {
             state.filters.search = e.target.value.trim();
             renderTokenCards(container);
             updateActiveFiltersStrip(container);
-        }, 220);
+        }, 200);
     });
 
     // Custom Status Dropdown
@@ -376,8 +376,8 @@ function renderTokenCards(container) {
     }
 
     if (emptyState) emptyState.classList.add('hidden');
-
-    grid.innerHTML = list.map(token => {
+    const displayList = list.slice(0, 30);
+    grid.innerHTML = displayList.map(token => {
         const isMine = state.activeStudent && token.ownerStudentId === state.activeStudent.studentId;
         const isAvailable = token.status === 'AVAILABLE';
         const cat = (token.activityCategory || 'EVENT').toLowerCase();
@@ -391,7 +391,7 @@ function renderTokenCards(container) {
 
                 <!-- 16:9 Image Visual (Object-Fit: Cover) -->
                 <div class="token-banner-wrap">
-                    <img src="${bannerImg}" alt="${token.activityTitle || 'Activity'}" class="token-card-banner" loading="lazy" width="380" height="214">
+                    <img src="${bannerImg}" alt="${token.activityTitle || 'Activity'}" class="token-card-banner" loading="lazy" decoding="async" width="380" height="214">
                     <div class="token-banner-overlay"></div>
                     <span class="token-category-badge ${cat}">${token.activityCategory || 'ACTIVITY'}</span>
                     <div class="token-banner-ring">

@@ -79,7 +79,7 @@ export async function renderTokenDetail(container, params = {}) {
             <div class="detail-main-card">
                 <!-- Large Banner Visual -->
                 <div class="detail-banner-hero">
-                    <img src="${bannerImg}" alt="${token.activityTitle || 'Activity'}" class="detail-hero-image" width="900" height="340">
+                    <img src="${bannerImg}" alt="${token.activityTitle || 'Activity'}" class="detail-hero-image" loading="lazy" decoding="async" width="900" height="340">
                     <div class="detail-banner-gradient"></div>
                     <div class="detail-banner-badge-box">
                         <span class="token-category-badge ${cat}">${token.activityCategory || 'ACTIVITY'}</span>

@@ -11,18 +11,18 @@
     --color-bg-space: #05060f;
     --color-bg-alt: #0a0c1b;
     --color-bg-subtle: #0f132a;
-    --color-surface: rgba(13, 16, 35, 0.72);
-    --color-surface-hover: rgba(22, 28, 58, 0.88);
-    --color-surface-elevated: rgba(18, 22, 48, 0.85);
+    --color-surface: rgba(13, 17, 36, 0.92);
+    --color-surface-hover: rgba(20, 26, 54, 0.96);
+    --color-surface-elevated: rgba(17, 22, 46, 0.95);
     --color-surface-solid: #0d1023;
-    --color-glass: rgba(13, 16, 35, 0.65);
+    --color-glass: rgba(13, 17, 36, 0.92);
 
     /* Aliases for legacy compatibility */
     --bg-primary: #05060f;
     --bg-surface: #0a0c1b;
-    --bg-card: rgba(13, 16, 35, 0.72);
-    --bg-card-hover: rgba(20, 26, 56, 0.88);
-    --bg-glass: rgba(13, 16, 35, 0.65);
+    --bg-card: rgba(13, 17, 36, 0.92);
+    --bg-card-hover: rgba(20, 26, 54, 0.96);
+    --bg-glass: rgba(13, 17, 36, 0.92);
 
     /* ----------------------------------------------------------------
        2. NEON ACCENT PALETTE (Cyan, Violet, Magenta, Lime)
@@ -92,9 +92,9 @@
     /* ----------------------------------------------------------------
        5. GLASSMORPHISM & GRADIENT BORDERS
        ---------------------------------------------------------------- */
-    --glass-blur: blur(20px);
-    --glass-blur-sm: blur(10px);
-    --glass-blur-lg: blur(32px);
+    --glass-blur: blur(10px);
+    --glass-blur-sm: blur(6px);
+    --glass-blur-lg: blur(12px);
     --glass-specular: inset 0 1px 0 rgba(255, 255, 255, 0.1);
 
     --border-subtle: rgba(255, 255, 255, 0.08);

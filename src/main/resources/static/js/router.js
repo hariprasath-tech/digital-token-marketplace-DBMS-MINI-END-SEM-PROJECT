@@ -6,6 +6,7 @@
 import { state, isUserAdmin } from './state.js';
 import { showToast } from './ui.js';
 import { updateSlidingIndicator, closeProfileMenu, closeMobileDrawer } from './main.js';
+import { cleanupAnimations } from './animations.js';
 import { renderLanding } from './pages/landing.js';
 import { renderAuth } from './pages/auth.js';
 import { renderMarketplace } from './pages/marketplace.js';
@@ -74,7 +75,8 @@ async function handleRouteChange() {
         }
     }
 
-    // 2. Cleanup previous page resources
+    // 2. Cleanup previous page resources and animations
+    cleanupAnimations();
     if (typeof currentCleanup === 'function') {
         try {
             currentCleanup();

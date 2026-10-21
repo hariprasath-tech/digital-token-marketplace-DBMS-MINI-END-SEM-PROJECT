@@ -1,19 +1,22 @@
 /**
  * NEXUS 3D Interactive Hologram Coin - Three.js (ES Module)
+ * Optimized for 60fps smooth scrolling
  * Sri Eshwar College of Engineering - Digital Token Marketplace
  * Author: Hari Prasath
  */
 
 export function initThreeHero(canvas) {
     if (!canvas || typeof window.THREE === 'undefined') {
-        console.warn('Three.js canvas not found or THREE undefined');
         return () => {};
     }
 
     const THREE = window.THREE;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     let scene, camera, renderer, coinGroup, particlesGroup;
-    let animationFrameId;
+    let animationFrameId = null;
+    let isVisible = false;
+    let isRunning = false;
     let mouseX = 0, mouseY = 0;
     let targetRotationX = 0.2;
     let targetRotationY = 0;
@@ -23,55 +26,47 @@ export function initThreeHero(canvas) {
 
     // 1. Scene & Camera
     scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+    camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
     camera.position.z = 6;
     camera.position.y = 0.2;
 
-    // 2. Renderer with Antialias & Alpha
+    // 2. Renderer with Capped Pixel Ratio (max 1.5 for mid-range laptops)
     renderer = new THREE.WebGLRenderer({
         canvas: canvas,
         alpha: true,
         antialias: true,
-        powerPreference: 'high-performance'
+        powerPreference: 'default'
     });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
 
-    // 3. Lighting Setup
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+    // 3. Consolidated Lighting (Single Ambient + Single Directional Light)
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
     scene.add(ambientLight);
 
-    const cyanPoint = new THREE.PointLight(0x00f0ff, 3.2, 50);
-    cyanPoint.position.set(5, 5, 5);
-    scene.add(cyanPoint);
+    const cyanLight = new THREE.DirectionalLight(0x00f0ff, 2.5);
+    cyanLight.position.set(4, 5, 4);
+    scene.add(cyanLight);
 
-    const purplePoint = new THREE.PointLight(0x8b5cff, 2.8, 50);
-    purplePoint.position.set(-5, -3, 3);
-    scene.add(purplePoint);
-
-    const magentaPoint = new THREE.PointLight(0xff3df2, 2.0, 50);
-    magentaPoint.position.set(0, -6, -2);
-    scene.add(magentaPoint);
-
-    // 4. Token Assembly Group
+    // 4. Token Assembly Group (Simplified Materials & Geometries)
     coinGroup = new THREE.Group();
     scene.add(coinGroup);
 
-    // Core Token Cylinder (Deep Cyber Metal)
-    const coinGeo = new THREE.CylinderGeometry(1.6, 1.6, 0.22, 48);
+    // Core Token Cylinder
+    const coinGeo = new THREE.CylinderGeometry(1.6, 1.6, 0.22, 32);
     const coinMat = new THREE.MeshStandardMaterial({
         color: 0x07152b,
-        metalness: 0.95,
-        roughness: 0.18,
+        metalness: 0.9,
+        roughness: 0.25,
         emissive: 0x00f0ff,
-        emissiveIntensity: 0.28
+        emissiveIntensity: 0.22
     });
     const coin = new THREE.Mesh(coinGeo, coinMat);
     coin.rotation.x = Math.PI / 2;
     coinGroup.add(coin);
 
     // Neon Rim Edge
-    const rimGeo = new THREE.TorusGeometry(1.62, 0.04, 16, 64);
+    const rimGeo = new THREE.TorusGeometry(1.62, 0.035, 12, 40);
     const rimMat = new THREE.MeshBasicMaterial({
         color: 0x00f0ff,
         wireframe: true
@@ -79,25 +74,25 @@ export function initThreeHero(canvas) {
     const rim = new THREE.Mesh(rimGeo, rimMat);
     coinGroup.add(rim);
 
-    // Concentric Orbiting Ring 1 (Cyan Data Track)
-    const ring1Geo = new THREE.RingGeometry(1.85, 1.95, 48);
+    // Orbiting Ring 1 (Cyan Data Track)
+    const ring1Geo = new THREE.RingGeometry(1.85, 1.94, 36);
     const ring1Mat = new THREE.MeshBasicMaterial({
         color: 0x00f0ff,
         side: THREE.DoubleSide,
         transparent: true,
-        opacity: 0.75,
+        opacity: 0.7,
         wireframe: true
     });
     const ring1 = new THREE.Mesh(ring1Geo, ring1Mat);
     coinGroup.add(ring1);
 
-    // Concentric Orbiting Ring 2 (Violet Tilted Gyroscope)
-    const ring2Geo = new THREE.RingGeometry(2.18, 2.25, 64);
+    // Orbiting Ring 2 (Violet Gyroscope)
+    const ring2Geo = new THREE.RingGeometry(2.18, 2.25, 40);
     const ring2Mat = new THREE.MeshBasicMaterial({
         color: 0x8b5cff,
         side: THREE.DoubleSide,
         transparent: true,
-        opacity: 0.6,
+        opacity: 0.55,
         wireframe: true
     });
     const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
@@ -111,7 +106,7 @@ export function initThreeHero(canvas) {
         color: 0x00f0ff,
         wireframe: true,
         transparent: true,
-        opacity: 0.55
+        opacity: 0.5
     });
     const hexFront = new THREE.Mesh(hexGeo, hexMat);
     hexFront.position.z = 0.12;
@@ -121,11 +116,11 @@ export function initThreeHero(canvas) {
     hexBack.position.z = -0.12;
     coinGroup.add(hexBack);
 
-    // 5. Orbiting Floating Cloud of Tech Particles
+    // 5. Lightweight Particle Cloud (Reduced from 180 to 48)
     particlesGroup = new THREE.Group();
     scene.add(particlesGroup);
 
-    const particleCount = 180;
+    const particleCount = 48;
     const particleGeo = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const colors = new Float32Array(particleCount * 3);
@@ -133,12 +128,11 @@ export function initThreeHero(canvas) {
     const palette = [
         new THREE.Color(0x00f0ff),
         new THREE.Color(0x8b5cff),
-        new THREE.Color(0xff3df2),
-        new THREE.Color(0xb6ff3c)
+        new THREE.Color(0xff3df2)
     ];
 
     for (let i = 0; i < particleCount; i++) {
-        const radius = 2.4 + Math.random() * 2.8;
+        const radius = 2.4 + Math.random() * 2.5;
         const theta = Math.random() * Math.PI * 2;
         const phi = (Math.random() - 0.5) * Math.PI;
 
@@ -146,7 +140,7 @@ export function initThreeHero(canvas) {
         positions[i * 3 + 1] = radius * Math.sin(phi);
         positions[i * 3 + 2] = radius * Math.sin(theta) * Math.cos(phi);
 
-        const col = palette[Math.floor(Math.random() * palette.length)];
+        const col = palette[i % palette.length];
         colors[i * 3] = col.r;
         colors[i * 3 + 1] = col.g;
         colors[i * 3 + 2] = col.b;
@@ -156,73 +150,158 @@ export function initThreeHero(canvas) {
     particleGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
     const particleMat = new THREE.PointsMaterial({
-        size: 0.065,
+        size: 0.06,
         vertexColors: true,
         transparent: true,
-        opacity: 0.85
+        opacity: 0.8
     });
 
     const particleSystem = new THREE.Points(particleGeo, particleMat);
     particlesGroup.add(particleSystem);
 
-    // 6. Interactive Mouse Movement
+    // 6. Throttled Mouse Movement Handler
+    let mouseRafId = null;
     function onMouseMove(event) {
-        const rect = canvas.getBoundingClientRect();
-        mouseX = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-        mouseY = -(((event.clientY - rect.top) / rect.height) * 2 - 1);
-
-        targetRotationY = mouseX * 0.8;
-        targetRotationX = mouseY * 0.6 + 0.2;
+        if (!isVisible || mouseRafId) return;
+        mouseRafId = requestAnimationFrame(() => {
+            mouseRafId = null;
+            const rect = canvas.getBoundingClientRect();
+            mouseX = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+            mouseY = -(((event.clientY - rect.top) / rect.height) * 2 - 1);
+            targetRotationY = mouseX * 0.7;
+            targetRotationX = mouseY * 0.5 + 0.2;
+        });
     }
 
-    window.addEventListener('mousemove', onMouseMove);
+    // Only attach mousemove on desktop devices
+    const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (isDesktop && !prefersReducedMotion) {
+        window.addEventListener('mousemove', onMouseMove, { passive: true });
+    }
 
     // Resize Handler
     function onWindowResize() {
-        if (!canvas.parentElement) return;
+        if (!canvas.parentElement || !renderer) return;
         const newWidth = canvas.parentElement.clientWidth;
         const newHeight = canvas.parentElement.clientHeight || 450;
         camera.aspect = newWidth / newHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(newWidth, newHeight);
+        renderer.render(scene, camera);
     }
-    window.addEventListener('resize', onWindowResize);
+    window.addEventListener('resize', onWindowResize, { passive: true });
 
-    // 7. Animation Loop
+    // 7. Animation Loop with IntersectionObserver & Visibility Pausing
     let clock = new THREE.Clock();
 
-    function animate() {
-        animationFrameId = requestAnimationFrame(animate);
-        const delta = clock.getDelta();
+    function renderFrame() {
+        if (!renderer || !scene || !camera) return;
         const elapsedTime = clock.getElapsedTime();
 
-        // Continuous Gyroscope Spin
         coinGroup.rotation.y += 0.012;
-        ring1.rotation.z -= 0.018;
-        ring2.rotation.z += 0.015;
+        ring1.rotation.z -= 0.016;
+        ring2.rotation.z += 0.014;
 
-        // Mouse Interactivity Lerp
         coinGroup.rotation.x += (targetRotationX - coinGroup.rotation.x) * 0.05;
         coinGroup.rotation.y += (targetRotationY - coinGroup.rotation.y) * 0.05;
 
-        // Subtle Floating Bob
-        coinGroup.position.y = Math.sin(elapsedTime * 1.5) * 0.12;
-
-        // Particle field rotation
-        particlesGroup.rotation.y += 0.003;
-        particlesGroup.rotation.x = Math.sin(elapsedTime * 0.5) * 0.05;
+        coinGroup.position.y = Math.sin(elapsedTime * 1.5) * 0.1;
+        particlesGroup.rotation.y += 0.0025;
 
         renderer.render(scene, camera);
     }
 
-    animate();
+    function animate() {
+        if (!isRunning || !isVisible || document.hidden) {
+            isRunning = false;
+            return;
+        }
+        renderFrame();
+        animationFrameId = requestAnimationFrame(animate);
+    }
 
-    // Return cleanup callback
+    function startLoop() {
+        if (isRunning || prefersReducedMotion) return;
+        isRunning = true;
+        clock.start();
+        animate();
+    }
+
+    function stopLoop() {
+        isRunning = false;
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+        }
+    }
+
+    // Handle Page Tab Visibility (pause when tab hidden)
+    function onVisibilityChange() {
+        if (document.hidden) {
+            stopLoop();
+        } else if (isVisible) {
+            startLoop();
+        }
+    }
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
+    // 8. IntersectionObserver: Render ONLY while in viewport
+    const observer = new IntersectionObserver((entries) => {
+        const entry = entries[0];
+        isVisible = entry.isIntersecting;
+        if (isVisible) {
+            if (prefersReducedMotion) {
+                renderFrame();
+            } else {
+                startLoop();
+            }
+        } else {
+            stopLoop();
+        }
+    }, { threshold: 0.05 });
+
+    observer.observe(canvas);
+
+    // Initial render for immediate appearance
+    renderFrame();
+
+    // 9. Thorough Cleanup and Disposal on Route Change
     return function destroy() {
-        cancelAnimationFrame(animationFrameId);
+        stopLoop();
+        observer.disconnect();
+        document.removeEventListener('visibilitychange', onVisibilityChange);
         window.removeEventListener('mousemove', onMouseMove);
         window.removeEventListener('resize', onWindowResize);
-        if (renderer) renderer.dispose();
+
+        if (mouseRafId) cancelAnimationFrame(mouseRafId);
+
+        // Traverse and dispose all geometries, materials, and textures
+        if (scene) {
+            scene.traverse((obj) => {
+                if (obj.geometry) {
+                    obj.geometry.dispose();
+                }
+                if (obj.material) {
+                    if (Array.isArray(obj.material)) {
+                        obj.material.forEach(m => m.dispose());
+                    } else {
+                        obj.material.dispose();
+                    }
+                }
+            });
+        }
+
+        if (renderer) {
+            renderer.dispose();
+            renderer.forceContextLoss();
+            renderer.domElement = null;
+        }
+
+        scene = null;
+        camera = null;
+        renderer = null;
+        coinGroup = null;
+        particlesGroup = null;
     };
 }
 

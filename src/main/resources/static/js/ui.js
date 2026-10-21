@@ -226,7 +226,10 @@ export function closeModal(modalId) {
     document.body.style.overflow = '';
 }
 
-// Glowing Cursor with Trailing Particles (Desktop pointer:fine & hover:hover only)
+// Glowing Cursor with Trailing Particles (Desktop pointer:fine & hover:hover only, max 12 particles)
+let activeParticlesCount = 0;
+const MAX_TRAIL_PARTICLES = 12;
+
 export function initCursor() {
     if (typeof window === 'undefined') return;
 
@@ -256,23 +259,31 @@ export function initCursor() {
     let ringX = -100;
     let ringY = -100;
     let lastParticleTime = 0;
+    let cursorRafPending = false;
 
     window.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
-        dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
 
-        const now = performance.now();
-        if (now - lastParticleTime > 40) {
-            lastParticleTime = now;
-            spawnCursorParticle(mouseX, mouseY);
+        if (!cursorRafPending) {
+            cursorRafPending = true;
+            requestAnimationFrame(() => {
+                cursorRafPending = false;
+                dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+
+                const now = performance.now();
+                if (now - lastParticleTime > 60 && activeParticlesCount < MAX_TRAIL_PARTICLES) {
+                    lastParticleTime = now;
+                    spawnCursorParticle(mouseX, mouseY);
+                }
+            });
         }
     }, { passive: true });
 
     function renderRing() {
         ringX += (mouseX - ringX) * 0.18;
         ringY += (mouseY - ringY) * 0.18;
-        ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
+        ring.style.transform = `translate3d(${ringX.toFixed(1)}px, ${ringY.toFixed(1)}px, 0) translate(-50%, -50%)`;
         requestAnimationFrame(renderRing);
     }
     requestAnimationFrame(renderRing);
@@ -287,20 +298,26 @@ export function initCursor() {
 }
 
 function spawnCursorParticle(x, y) {
+    if (activeParticlesCount >= MAX_TRAIL_PARTICLES) return;
+    activeParticlesCount++;
+
     const particle = document.createElement('div');
     particle.className = 'nexus-cursor-particle';
     particle.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
     document.body.appendChild(particle);
 
     const anim = particle.animate([
-        { transform: `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%) scale(1)`, opacity: 0.8 },
-        { transform: `translate3d(${x + (Math.random() * 16 - 8)}px, ${y + (Math.random() * 16 - 8)}px, 0) translate(-50%, -50%) scale(0)`, opacity: 0 }
+        { transform: `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%) scale(1)`, opacity: 0.7 },
+        { transform: `translate3d(${x + (Math.random() * 12 - 6)}px, ${y + (Math.random() * 12 - 6)}px, 0) translate(-50%, -50%) scale(0)`, opacity: 0 }
     ], {
-        duration: 340,
+        duration: 280,
         easing: 'ease-out'
     });
 
-    anim.onfinish = () => particle.remove();
+    anim.onfinish = () => {
+        particle.remove();
+        activeParticlesCount = Math.max(0, activeParticlesCount - 1);
+    };
 }
 
 // Skeletons
@@ -360,7 +377,7 @@ export function getActivityCardArt(token) {
 
     const explicitUrl = token.activityImageUrl || token.imageUrl;
     if (explicitUrl && typeof explicitUrl === 'string' && explicitUrl.trim().length > 0) {
-        return explicitUrl.trim();
+        return explicitUrl.trim().replace(/\.jpg$/i, '.webp');
     }
 
     const actId = token.activityId || 1;

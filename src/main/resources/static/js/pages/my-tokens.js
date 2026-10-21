@@ -280,7 +280,7 @@ function renderVaultCards(container) {
                 <div class="token-card-shine"></div>
 
                 <div class="token-banner-wrap">
-                    <img src="${bannerImg}" alt="${token.activityTitle || 'Token'}" class="token-card-banner" loading="lazy" width="380" height="214">
+                    <img src="${bannerImg}" alt="${token.activityTitle || 'Token'}" class="token-card-banner" loading="lazy" decoding="async" width="380" height="214">
                     <div class="token-banner-overlay"></div>
                     <span class="token-category-badge ${cat}">${token.activityCategory || 'ACTIVITY'}</span>
                     <div class="token-banner-ring">

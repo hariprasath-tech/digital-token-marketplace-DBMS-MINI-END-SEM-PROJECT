@@ -31,3 +31,15 @@ target/
 
 ### Logs ###
 *.log
+
+### Node ###
+node_modules/
+package-lock.json
+
+### Generated Report & Large Binaries ###
+# PDF report stays local - too large for HTTP push
+*.pdf
+# Captured screenshots & diagrams stay local
+report_assets/
+# Rendered HTML report (contains base64 images, huge file)
+report/report.html

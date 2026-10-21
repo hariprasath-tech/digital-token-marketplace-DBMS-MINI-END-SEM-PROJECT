@@ -160,9 +160,8 @@
    2. GLASSMORPHISM CARDS & GRADIENT BORDERS
    ---------------------------------------------------------------- */
 .glass-card, .token-card {
-    background: var(--color-surface);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
+    background: linear-gradient(145deg, rgba(16, 21, 46, 0.94), rgba(10, 13, 28, 0.96));
+    contain: layout paint;
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-lg);
     padding: var(--space-6);
@@ -252,10 +251,9 @@
 
 /* Secondary Glass Button */
 .btn-secondary, .cyber-btn.secondary-glass {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(20, 26, 54, 0.85);
     color: var(--text-primary);
     border: 1px solid var(--border-glow);
-    backdrop-filter: var(--glass-blur-sm);
 }
 
 .btn-secondary:hover, .cyber-btn.secondary-glass:hover {
@@ -602,7 +600,6 @@
     border: 1px solid var(--border-glow);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-lg), 0 0 25px rgba(0, 240, 255, 0.15);
-    backdrop-filter: var(--glass-blur);
     padding: 6px;
     z-index: var(--z-dropdown);
     display: flex;
@@ -823,7 +820,6 @@
     border-radius: var(--radius-xs);
     border: 1px solid var(--border-glow);
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 240, 255, 0.2);
-    backdrop-filter: var(--glass-blur-sm);
     opacity: 0;
     pointer-events: none;
     transition: opacity var(--transition-fast), transform var(--transition-fast);
@@ -1004,9 +1000,8 @@
    15. STAT CARDS & METRIC CARDS
    ---------------------------------------------------------------- */
 .stat-card, .stat-counter-card, .metric-card, .cyber-metric-card {
-    background: var(--color-surface);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
+    background: linear-gradient(145deg, rgba(16, 21, 46, 0.94), rgba(10, 13, 28, 0.96));
+    contain: layout paint;
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-lg);
     padding: var(--space-5) var(--space-6);
@@ -1138,10 +1133,9 @@
     top: 10px;
     right: 10px;
     z-index: 2;
-    background: rgba(5, 6, 15, 0.7);
+    background: rgba(5, 6, 15, 0.85);
     border-radius: 50%;
     padding: 2px;
-    backdrop-filter: blur(8px);
 }
 
 /* ----------------------------------------------------------------
@@ -1325,8 +1319,6 @@
     border: 1px solid var(--border-glow);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-lg), 0 0 35px rgba(0, 240, 255, 0.2);
-    backdrop-filter: var(--glass-blur-lg);
-    -webkit-backdrop-filter: var(--glass-blur-lg);
     z-index: var(--z-dropdown);
     overflow: hidden;
     transform: translateY(-8px) scale(0.96);
